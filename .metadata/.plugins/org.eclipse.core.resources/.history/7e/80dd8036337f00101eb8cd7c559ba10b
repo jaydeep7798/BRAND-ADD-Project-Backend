@@ -1,0 +1,83 @@
+package com.brand.security;
+
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Component;
+
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
+import java.util.Date;
+
+@Component
+public class JwtUtil {
+
+    // Keep secret safe in production (env variable or config)
+    private final String SECRET_KEY = "MyVerySecretKey1234567890123456"; // 32+ chars for HS256
+
+    private final Key key;
+
+    public JwtUtil() {
+        byte[] keyBytes = SECRET_KEY.getBytes(StandardCharsets.UTF_8);
+        this.key = Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    /**
+     * Generate JWT token
+     * @param email user's email
+     * @return JWT token string
+     */
+    public String generateToken(String email) {
+        return Jwts.builder()
+                .setSubject(email)                          // Subject claim
+                .setIssuedAt(new Date())                    // Issued at claim
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // Expire in 1 day
+                .signWith(key, SignatureAlgorithm.HS256)   // Sign token
+                .compact();
+    }
+
+    /**
+     * Validate JWT token for a given email
+     * @param token JWT token
+     * @param email user email to match
+     * @return true if valid
+     */
+    public boolean validateToken(String token, String email) {
+        try {
+            String tokenEmail = getEmail(token);
+            return tokenEmail.equals(email) && !isTokenExpired(token);
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Get email (subject) from JWT
+     * @param token JWT token
+     * @return email string
+     */
+    public String getEmail(String token) {
+        return getClaims(token).getSubject();
+    }
+
+    /**
+     * Get claims (payload) from JWT
+     * @param token JWT token
+     * @return Claims object
+     */
+    private Claims getClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    /**
+     * Check if token is expired
+     * @param token JWT token
+     * @return true if expired
+     */
+    private boolean isTokenExpired(String token) {
+        return getClaims(token).getExpiration().before(new Date());
+    }
+}

@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: SBMS-Welcome-API
+    
+server :
+port : 8081
+

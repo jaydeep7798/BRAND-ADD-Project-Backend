@@ -1,0 +1,22 @@
+package com.brand.serviceImpl;
+
+import org.springframework.stereotype.Service;
+
+import com.brand.model.LoginModel;
+import com.brand.model.response.LoginResponse;
+import com.brand.service.LoginService;
+
+@Service
+public class LoginServiceImpl implements LoginService {
+
+	@Override
+	public LoginResponse login(LoginModel request) {
+		// TODO Auto-generated method stub
+		 if ("admin@example.com".equals(request.getEmail()) && "123456".equals(request.getPassword())) {
+	            return new LoginResponse(true, "Login successful", "dummy-jwt-token");
+	        } else {
+	            return new LoginResponse(false, "Invalid email or password", null);
+	        }
+	}
+
+}

@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: SBMS-LoginService
+  boot :
+    admin :
+       client :
+           url : http://localhost:1111/
+
+eureka :
+    client :
+       service-url :
+          defaultzone :  http://localhost:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+       
+    
+server :
+   port : 9091 
+   
+jwt:
+  secret: "ThisIsA32CharLongSecretKeyForJWT1234"  # Must be at least 32 chars (256 bits)
+
+
+

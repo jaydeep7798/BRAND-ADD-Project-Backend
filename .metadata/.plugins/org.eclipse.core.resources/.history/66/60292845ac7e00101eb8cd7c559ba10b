@@ -1,0 +1,35 @@
+package com.brand.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.brand.model.LoginModel;
+import com.brand.model.response.LoginResponse;
+
+@RestController
+public class LoginController {
+	
+	
+	private final Logger logger = LoggerFactory.getLogger(LoginController.class);
+	
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginModel request) {
+        logger.info("Login attempt for email: {}", request.getEmail());
+
+        LoginResponse response = loginService.login(request);
+
+        if (response.isSuccess()) {
+            logger.info("Login successful for email: {}", request.getEmail());
+            return ResponseEntity.ok(response); // HTTP 200
+        } else {
+            logger.warn("Login failed for email: {}", request.getEmail());
+            return ResponseEntity.status(401).body(response); // HTTP 401 Unauthorized
+        }
+    }
+}

@@ -1,0 +1,5 @@
+package com.brand.service;
+
+public interface LoginService {
+
+}
