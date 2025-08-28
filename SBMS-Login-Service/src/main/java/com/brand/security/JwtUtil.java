@@ -24,33 +24,42 @@ public class JwtUtil {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 day
+                .setExpiration(new Date(System.currentTimeMillis()  + 1000 * 60 * 60 * 10)) // 1 day
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public boolean validateToken(String token, String email) {
+    public boolean validateToken(String token) {
         try {
-            String tokenEmail = getEmail(token);
-            return tokenEmail.equals(email) && !isTokenExpired(token);
+            // This will throw an exception if token is invalid
+            Jwts.parserBuilder()
+                .setSigningKey(key)   // your signing key (HS256/RS256)
+                .build()
+                .parseClaimsJws(token);
+
+            // Check expiration
+            return !isTokenExpired(token);
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
     }
 
+
     public String getEmail(String token) {
         return getClaims(token).getSubject();
     }
 
-    private Claims getClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+    private boolean isTokenExpired(String token) {
+        Date expiration = getClaims(token).getExpiration();
+        return expiration.before(new Date());
     }
 
-    private boolean isTokenExpired(String token) {
-        return getClaims(token).getExpiration().before(new Date());
+    private Claims getClaims(String token) {
+        return Jwts.parserBuilder()
+                   .setSigningKey(key)
+                   .build()
+                   .parseClaimsJws(token)
+                   .getBody();
     }
+
 }

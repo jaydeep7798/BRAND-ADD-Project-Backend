@@ -1,0 +1,28 @@
+server: 
+  port: 3333
+
+spring:
+  application:
+    name: SBMS-API-Gateway
+  cloud:
+    gateway:
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+      routes:   
+        - id: login-api
+          uri: lb://SBMS-LoginService
+          predicates:
+            - Path=/api/**   
