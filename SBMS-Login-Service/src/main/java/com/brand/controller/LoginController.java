@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,14 +33,14 @@ public class LoginController {
 	@Autowired
     private JwtUtil jwtUtil;
 	
-	private final Logger logger = LoggerFactory.getLogger(LoginController.class);
+	private final org.slf4j.Logger  logger = LoggerFactory.getLogger(LoginController.class);
 	
 	private String email ="";
 	
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginModel request) {
     	  logger.info("Login attempt for email: {}", request.getEmail());
-    	   email =request.getEmail();
+    	  email =request.getEmail();
           LoginResponse response = loginService.login(request);
 
           if (response.isSuccess()) {
@@ -59,7 +59,7 @@ public class LoginController {
     public String getMessage() {
     	return "Its Working";
     }
-    
+     
     @PostMapping("/test")
     public ResponseEntity<?> addDetails(@RequestBody Map<String, Object> body,@RequestHeader Map<String, String> headers) {
     	logger.info("🔑 Authorization Header: " + headers.get("authorization"));

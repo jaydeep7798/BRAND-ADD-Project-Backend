@@ -35,7 +35,7 @@ public class RequestFilter implements GlobalFilter, Ordered  {
         logger.info("The Filter are Working");
         
         // Allow login API without token
-        if (path.startsWith("/api/login")) {
+        if (path.startsWith("/api/login") || path.startsWith("/api/signUp") ) {
             return chain.filter(exchange);
         }
 

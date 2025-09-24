@@ -25,4 +25,9 @@ spring:
         - id: login-api
           uri: lb://SBMS-LoginService
           predicates:
-            - Path=/api/**   
+            - Path=/api/login/**
+        - id: signup-api
+          uri: lb://SBMS-SignUp-Service
+          predicates:
+            - Path=/api/signUp/**   
+        
