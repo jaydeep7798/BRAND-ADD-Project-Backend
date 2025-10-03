@@ -1,10 +1,10 @@
-package com.brand.SBMS_User_Service;
+package com.brand.SBMS_common_DTO;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SbmsUserServiceApplicationTests {
+class SbmsCommonDtoApplicationTests {
 
 	@Test
 	void contextLoads() {

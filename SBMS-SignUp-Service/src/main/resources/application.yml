@@ -1,6 +1,23 @@
 spring:
   application:
     name: SBMS-SignUp-Service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Brand_Add
+    username: postgres
+    # password:   <-- remove or leave empty
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # options: none, validate, update, create, create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true   # shows SQL in logs
+
+  sql:
+    init:
+      mode: always   # run schema/data.sql if present  
   boot :
     admin :
        client :

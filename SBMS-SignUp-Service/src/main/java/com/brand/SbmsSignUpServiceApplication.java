@@ -11,5 +11,4 @@ public class SbmsSignUpServiceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SbmsSignUpServiceApplication.class, args);
 	}
-
 }

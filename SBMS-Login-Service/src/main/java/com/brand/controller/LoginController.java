@@ -54,11 +54,6 @@ public class LoginController {
               return ResponseEntity.status(401).body(response); // HTTP 401 Unauthorized
           }
     }
-    
-    @GetMapping("/msg")
-    public String getMessage() {
-    	return "Its Working";
-    }
      
     @PostMapping("/test")
     public ResponseEntity<?> addDetails(@RequestBody Map<String, Object> body,@RequestHeader Map<String, String> headers) {

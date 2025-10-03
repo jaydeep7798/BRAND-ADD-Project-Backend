@@ -1,7 +1,10 @@
 package com.brand.serviceImpl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.brand.client.SignUpClient;
+import com.brand.common.dto.SignUpResponse;
 import com.brand.model.LoginModel;
 import com.brand.model.response.LoginResponse;
 import com.brand.service.LoginService;
@@ -9,23 +12,21 @@ import com.brand.service.LoginService;
 @Service
 public class LoginServiceImpl implements LoginService {
 	
-    private final String validEmail = "jaydeep@gmail.com";
-    private final String validPassword = "123456";
+    @Autowired
+    private SignUpClient signUpClient;
 
 	@Override
 	public LoginResponse login(LoginModel request) {
-		// TODO Auto-generated method stub
-		  // Validate email and password
+		  // TODO Auto-generated method stub
 		LoginResponse response = new LoginResponse();
-        if (validEmail.equals(request.getEmail()) && validPassword.equals(request.getPassword())) {
+		SignUpResponse signUpResponse = signUpClient.getUserByEmail(request.getEmail());
+        if (signUpResponse.getEmail().equals(request.getEmail()) && signUpResponse.getPassword().equals(request.getPassword())) {
             response.setSuccess(true);
             response.setMessage("Login successful");
         } else {
             response.setSuccess(false);
             response.setMessage("Invalid email or password");
         }
-
         return response;
 	}
-
 }
