@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "SBMS-LoginService")
 public interface AuthInterface {
-	
 	@GetMapping("/api/validate")
     Boolean validateToken(@RequestParam("token") String token);
 
