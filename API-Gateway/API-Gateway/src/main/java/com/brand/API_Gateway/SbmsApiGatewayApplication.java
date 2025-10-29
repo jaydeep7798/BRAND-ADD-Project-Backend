@@ -10,6 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients(basePackages = "com.brand")
 public class SbmsApiGatewayApplication {
 
+	
 	public static void main(String[] args) {
 		SpringApplication.run(SbmsApiGatewayApplication.class, args);
 	}
